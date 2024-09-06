@@ -2,9 +2,20 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gdown
+import os
+
+# Function to download file if not already present
+def download_file(url, output):
+    if not os.path.exists(output):
+        gdown.download(url, output, quiet=False)
+
+url = "https://drive.google.com/uc?id=1snoJhtHrj6a6zU9PV1H6Ry_SxHexIPMa"
+output_similarity = "similarity.pkl"
+download_file(url, output_similarity)
 
 movies_dict = pickle.load(open('movies_dict.pkl', 'rb'))
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+similarity = pickle.load(open(output_similarity, 'rb'))
 movies = pd.DataFrame(movies_dict)
 
 # Fetch movie poster from TMDb API
